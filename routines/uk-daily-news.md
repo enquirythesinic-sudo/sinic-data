@@ -49,6 +49,7 @@
          Institute for Government、UK in a Changing Europe、Cebr、Economics Observatory
    中間偏右（同讀者取向接近）：IEA、Policy Exchange
    偏左（做對照）：IPPR
+   中間派（新工黨路線，親增長、重科技同 AI）：Tony Blair Institute（institute.global）
    ・有立場嘅機構要寫明「某某機構認為」，唔可以當中立事實寫。
    ・寫政策爭議時，儘量右（IEA／Policy Exchange）左（IPPR）各引一邊。
 第三層・媒體（用嚟發現題目同補充脈絡，數字要追返第一、二層）
