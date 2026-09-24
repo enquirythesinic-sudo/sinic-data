@@ -31,7 +31,16 @@
    ・Ofgem 能源價格上限
    ・HM Land Registry UK House Price Index
    ・gov.uk 政策公告、國會法案（簽證、永居、入籍、稅務、教育、NHS）
-有就由呢啲揀；冇就廣掃 BBC、Reuters、FT、Guardian、The Times 過去 48 小時嘅英國新聞。
+有就由呢啲揀；冇就用 web search 廣掃過去 48 小時嘅英國新聞。
+
+【搜尋限制（已實測，唔好浪費次數）】
+・BBC、Reuters、FT、Guardian、The Times、Sky News、Independent、AP 全部封鎖 Claude：
+  web search 搜唔到佢哋嘅結果，web fetch 亦開唔到。唔好用 site: 或者 allowed_domains 指定佢哋，一定失敗。
+・做法：用 web search 唔加 domain 限制，搜「主題 + 月份 + 年份」（例如「Bank of England rate decision September 2026」），
+  搜尋摘要通常會直接引述官方原文（bankofengland.co.uk、gov.uk、ons.gov.uk、parliament.uk）。
+・官方網站如果 web fetch 開唔到（EGRESS_BLOCKED），就用 web search 搜嗰份發布嘅標題，由搜尋摘要攞數字，
+  並喺來源清單註明「經搜尋摘要核實，未能直接開啟原文」。
+・「兩個獨立來源」可以係：官方原文 + 一間搜得到嘅媒體或研究機構（例如 House of Commons Library、Trading Economics、行業協會）。
 
 候選要過三條 gate，唔過就出局：
    ① 核心數字或事實有最少兩個獨立可靠來源（其中一個最好係官方原文）
