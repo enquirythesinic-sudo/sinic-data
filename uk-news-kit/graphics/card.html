@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts/400.css">
+<link rel="stylesheet" href="../fonts/700.css">
+<link rel="stylesheet" href="../fonts/900.css">
+<style>
+  /* 品牌色：改呢度就得，其他唔使郁 */
+  :root {
+    --bg: #0f1f3a;
+    --panel: #172b4d;
+    --ink: #f4efe6;
+    --muted: #9fb0c8;
+    --accent: #e0b04b;   /* 只留俾最重要嗰個數字 */
+    --bar: #6f9bd1;
+    --grid: #2a4068;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1350px; background: var(--bg); }
+  body {
+    font-family: "Noto Sans TC", "WenQuanYi Zen Hei", sans-serif;
+    color: var(--ink);
+    display: flex; flex-direction: column;
+    padding: 84px 80px 64px;
+    overflow: hidden;
+  }
+  #kicker, #title, #subtitle, #footer { flex-shrink: 0; }
+  #kicker { font-size: 34px; font-weight: 700; color: var(--accent); letter-spacing: 2px; margin-bottom: 24px; }
+  #title { white-space: pre-line; font-size: 84px; font-weight: 900; line-height: 1.22; max-height: 330px; overflow: hidden; }
+  #subtitle { font-size: 36px; color: var(--muted); margin-top: 24px; line-height: 1.45; }
+  #body { flex: 1; display: flex; flex-direction: column; justify-content: center; margin: 48px 0; min-height: 0; }
+  #footer { display: flex; justify-content: space-between; align-items: flex-end; gap: 40px;
+            border-top: 2px solid var(--grid); padding-top: 24px; font-size: 26px; color: var(--muted); }
+  #source { flex: 1; line-height: 1.45; }
+  #brand { font-weight: 700; color: var(--ink); white-space: nowrap; }
+
+  /* stat */
+  .hero { white-space: nowrap; }
+  .hero .label { white-space: normal; }
+  .hero .value { font-size: 220px; font-weight: 900; color: var(--accent); line-height: 1; }
+  .hero .unit { font-size: 64px; font-weight: 700; margin-left: 12px; }
+  .hero .label { font-size: 40px; color: var(--ink); margin-top: 20px; line-height: 1.4; }
+  .stats { display: grid; gap: 24px; margin-top: 56px; }
+  .stat { background: var(--panel); border-radius: 16px; padding: 28px 28px 32px; }
+  .stat .num { white-space: nowrap; overflow: hidden; }
+  .stat .value { font-size: 64px; font-weight: 900; line-height: 1.1; }
+  .stat .unit { font-size: 30px; font-weight: 700; margin-left: 6px; }
+  .stat .label { font-size: 28px; color: var(--muted); margin-top: 12px; line-height: 1.4; }
+
+  /* bar */
+  .bars { display: flex; flex-direction: column; gap: 28px; }
+  .bar-row .label { font-size: 32px; margin-bottom: 10px; }
+  .bar-track { display: flex; align-items: center; gap: 16px; height: 56px; }
+  .bar-fill { height: 100%; background: var(--bar); border-radius: 0 8px 8px 0; min-width: 4px; }
+  .bar-row.key .bar-fill { background: var(--accent); }
+  .bar-val { font-size: 34px; font-weight: 700; white-space: nowrap; }
+  .bar-row.key .bar-val { color: var(--accent); }
+
+  /* line */
+  svg text { font-family: inherit; }
+
+  /* policy */
+  .points { list-style: none; display: flex; flex-direction: column; gap: 28px; }
+  .points li { background: var(--panel); border-left: 8px solid var(--bar); border-radius: 12px;
+               padding: 28px 32px; font-size: 38px; line-height: 1.45; }
+  .points li:first-child { border-left-color: var(--accent); }
+
+  /* quote */
+  .quote { font-size: 60px; font-weight: 700; line-height: 1.5; }
+  .quote::before { content: "「"; color: var(--accent); }
+  .quote::after { content: "」"; color: var(--accent); }
+  .speaker { font-size: 36px; color: var(--muted); margin-top: 40px; }
+</style>
+</head>
+<body>
+  <div id="kicker"></div>
+  <div id="title"></div>
+  <div id="subtitle"></div>
+  <div id="body"></div>
+  <div id="footer"><div id="source"></div><div id="brand"></div></div>
+<script>
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt = v => typeof v === "number" ? v.toLocaleString("en-GB") : esc(v);
+const show = i => i.display != null ? esc(i.display) : fmt(i.value);
+
+const layouts = {
+  stat(d) {
+    const items = d.items || [];
+    const hero = items.find(i => i.key) || items[0];
+    const rest = items.filter(i => i !== hero);
+    const cols = Math.min(Math.max(rest.length, 1), 3);
+    return `
+      <div class="hero"><span class="value">${show(hero)}</span><span class="unit">${esc(hero.unit)}</span>
+        <div class="label">${esc(hero.label)}</div></div>
+      ${rest.length ? `<div class="stats" style="grid-template-columns:repeat(${cols},1fr)">
+        ${rest.map(i => `<div class="stat"><div class="num"><span class="value">${show(i)}</span><span class="unit">${esc(i.unit)}</span></div>
+          <div class="label">${esc(i.label)}</div></div>`).join("")}</div>` : ""}`;
+  },
+  bar(d) {
+    const items = d.items || [];
+    const max = Math.max(...items.map(i => i.value));
+    return `<div class="bars">${items.map(i => `
+      <div class="bar-row${i.key ? " key" : ""}"><div class="label">${esc(i.label)}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${(i.value / max) * 72}%"></div>
+          <span class="bar-val">${show(i)}${esc(d.unit || "")}</span></div></div>`).join("")}</div>`;
+  },
+  line(d) {
+    const pts = d.points || [];
+    const W = 920, H = 620, pl = 20, pr = 20, pt = 70, pb = 70;
+    const vals = pts.map(p => p.value);
+    let lo = Math.min(...vals), hi = Math.max(...vals);
+    const pad = (hi - lo || Math.abs(hi) || 1) * 0.15; lo -= pad; hi += pad;
+    const x = i => pl + (W - pl - pr) * (pts.length === 1 ? 0.5 : i / (pts.length - 1));
+    const y = v => pt + (H - pt - pb) * (1 - (v - lo) / (hi - lo));
+    const path = pts.map((p, i) => `${i ? "L" : "M"}${x(i)},${y(p.value)}`).join(" ");
+    const keyIdx = pts.findIndex(p => p.key) >= 0 ? pts.findIndex(p => p.key) : pts.length - 1;
+    const every = Math.ceil(pts.length / 6);
+    const labels = pts.map((p, i) => (i % every === 0 || i === pts.length - 1)
+      ? `<text x="${x(i)}" y="${H - 16}" fill="var(--muted)" font-size="26" text-anchor="${i === 0 ? "start" : i === pts.length - 1 ? "end" : "middle"}">${esc(p.label)}</text>` : "").join("");
+    const k = pts[keyIdx];
+    return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+      <line x1="0" x2="${W}" y1="${H - pb}" y2="${H - pb}" stroke="var(--grid)" stroke-width="2"/>
+      <path d="${path}" fill="none" stroke="var(--bar)" stroke-width="8" stroke-linejoin="round" stroke-linecap="round"/>
+      <circle cx="${x(keyIdx)}" cy="${y(k.value)}" r="14" fill="var(--accent)"/>
+      <text x="${Math.min(Math.max(x(keyIdx), 140), W - 140)}" y="${y(k.value) - 32}" fill="var(--accent)" font-size="48" font-weight="900" text-anchor="middle">${show(k)}${esc(d.unit || "")}</text>
+      ${labels}</svg>`;
+  },
+  policy(d) {
+    return `<ul class="points">${(d.points || []).map(p => `<li>${esc(p)}</li>`).join("")}</ul>`;
+  },
+  quote(d) {
+    return `<div class="quote">${esc(d.text)}</div><div class="speaker">${esc(d.speaker)}</div>`;
+  },
+};
+
+const TITLE_MAX = 330;
+// 標題自動縮細：超出三行或者超出高度就逐步縮細，最細 56px
+function fitTitle() {
+  const t = document.getElementById("title");
+  let size = 84;
+  t.style.fontSize = size + "px";
+  const fits = () => t.scrollHeight <= TITLE_MAX + 12;  // 預留字形超出行高嘅幾 px
+  while (size > 56 && !fits()) { size -= 4; t.style.fontSize = size + "px"; }
+  return fits();
+}
+
+window.renderCard = (d, brand) => {
+  document.getElementById("kicker").textContent = d.kicker || "";
+  document.getElementById("title").textContent = d.title || "";
+  const sub = document.getElementById("subtitle");
+  sub.textContent = d.subtitle || ""; sub.style.display = d.subtitle ? "" : "none";
+  document.getElementById("source").textContent = d.source ? "資料來源：" + d.source : "";
+  document.getElementById("brand").textContent = brand || "";
+  if (!layouts[d.type]) return { errors: [`未知圖表類型：${d.type}（可用：${Object.keys(layouts).join("、")}）`] };
+  document.getElementById("body").innerHTML = layouts[d.type](d);
+
+  const errors = [], warnings = [];
+  for (const n of document.querySelectorAll(".stat .num")) {
+    const v = n.querySelector(".value"); let size = 64;
+    while (size > 36 && n.scrollWidth > n.clientWidth) { size -= 4; v.style.fontSize = size + "px"; }
+    if (n.scrollWidth > n.clientWidth) errors.push(`數字「${v.textContent}」太長放唔落，請縮短`);
+  }
+  if (!fitTitle()) errors.push("標題太長，縮到最細都放唔落，請改短標題");
+  if (!d.source) errors.push("冇資料來源");
+  const body = document.getElementById("body");
+  if (body.scrollHeight > body.clientHeight + 2) errors.push("內容太多，超出圖卡範圍：請減少項目或者縮短文字");
+  for (const el of document.querySelectorAll("body *")) {
+    const r = el.getBoundingClientRect();
+    if (r.width && (r.right > 1081 || r.bottom > 1351 || r.left < -1)) { errors.push(`有元素超出畫布：${el.className || el.id || el.tagName}`); break; }
+  }
+  if (d.type === "bar") {
+    const v = (d.items || []).map(i => i.value);
+    if (v.length && Math.min(...v) / Math.max(...v) > 0.85) warnings.push("各項數值相差少過 15%，零基線棒形圖睇唔出分別，建議改用 line 或 stat");
+  }
+  if (d.type === "stat" && (d.items || []).length > 4) errors.push("stat 最多 4 項");
+  return { errors, warnings };
+};
+</script>
+</body>
+</html>

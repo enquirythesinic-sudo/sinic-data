@@ -1,0 +1,22 @@
+{
+ "type": "bar",
+ "kicker": "YouGov 議席推算",
+ "title": "如果今日大選\n工黨成最大黨但無過半",
+ "unit": " 席",
+ "items": [
+  {
+   "label": "工黨",
+   "value": 241,
+   "key": true
+  },
+  {
+   "label": "保守黨",
+   "value": 130
+  },
+  {
+   "label": "改革黨",
+   "value": 123
+  }
+ ],
+ "source": "YouGov 逐區議席推算民調，2026年9月"
+}

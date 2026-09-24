@@ -1,0 +1,6 @@
+{"type":"stat","kicker":"英倫銀行議息","title":"利率不變，但三名委員已投票加息",
+ "items":[{"value":"3.75","unit":"%","label":"銀行利率（2026年9月16日）","key":true},
+          {"value":"6：3","unit":"","label":"維持：加息 票數"},
+          {"value":"3.1","unit":"%","label":"8月 CPI 通脹"},
+          {"value":"11月5日","unit":"","label":"下次議息"}],
+ "source":"Bank of England，Monetary Policy Summary，2026年9月"}

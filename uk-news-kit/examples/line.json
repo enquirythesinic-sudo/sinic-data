@@ -1,0 +1,27 @@
+{
+ "type": "line",
+ "kicker": "英國通脹",
+ "title": "能源價格推高通脹\n第四季或見3.75%",
+ "unit": "%",
+ "points": [
+  {
+   "label": "2026 Q1",
+   "value": 3.1
+  },
+  {
+   "label": "8月",
+   "value": 3.1
+  },
+  {
+   "label": "Q4 預測",
+   "value": 3.75
+  },
+  {
+   "label": "2027初 預測",
+   "value": 4.0,
+   "key": true,
+   "display": "4.0"
+  }
+ ],
+ "source": "Bank of England，2026年9月預測"
+}

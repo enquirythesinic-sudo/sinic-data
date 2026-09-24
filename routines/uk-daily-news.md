@@ -29,6 +29,7 @@
    ・讀 uk-ledger.csv（冇就建立，欄位：date,title,main_number,subject,angle,source_url）
    ・讀 uk-backlog.md（冇就建立）
    冇 repo 就跳過，喺最終回覆講明「今次冇去重紀錄」。
+3. 喺 repo 最外層跑 ./setup.sh（安裝出圖同 Word 工具，已裝會跳過）。
 
 【二、揀題】
 先睇今日或過去 72 小時有冇以下官方發布（優先次序由高至低）：
@@ -117,30 +118,63 @@
 ・禁用：震撼、驚人、崩盤、必將、「有分析認為」「市場普遍相信」這類無主語句。
 ・正文要可以整段貼上 Facebook：段落之間空一行，唔好用 markdown 標記。
 ・文末附 3–6 個 hashtag。
+・另外寫 3 個標題選項俾編輯揀：命題式，包含具體名詞或者數字，唔好用設問句。
 
-【五、圖卡數據】
-唔使出圖，但要附一段「圖卡數據」俾設計用：
-   ・建議圖表類型（bar／line／單一大數字／時間線／引述卡）
-   ・標題（唔好重複主數字）
-   ・數據表（標籤、數值、單位）
-   ・最重要嗰個數字
-   ・來源行
+【五、出圖】
+揀一款最啱數據形狀嘅圖卡，寫 card.json，然後出圖：
+   python3 graphics/render.py posts-uk/YYYY-MM-DD/card.json posts-uk/YYYY-MM-DD/card.png
+・類型：stat（一個主數字＋最多 3 個支撐）／bar（3–6 項比大細）／line（4 點以上時間變化）／
+  policy（政策重點 2–4 點）／quote（一句引述）。格式睇 TOOLS.md 同 examples/。
+・圖上文字同正文一樣：書面語、香港譯名、唔可以有口語字。
+・標題用 \n 手動換行，唔好拆散詞語。標題唔好重複主數字。
+・各項數值相差少過 15% 唔好用 bar，改用 line 或 stat。
+・render.py 出 BLOCK（exit 1）唔可以出街：要改嘅係內容（縮短標題、減少項目），唔好改 card.html。
+・出完圖要用 Read 睇一次張 PNG，確認冇文字重疊或者切走。
 
 【六、交付】
-如果有 repo：
-   ・將全文寫入 posts-uk/YYYY-MM-DD.md
+每日一個資料夾 posts-uk/YYYY-MM-DD/：
+   post.md    ← 用以下格式，每節用「# 節名」開頭
+   card.json、card.png
+   post.docx  ← 俾人手覆核
+
+post.md 格式：
+   # 標題選項
+   1. …  2. …  3. …
+   # 正文
+   （可以整段貼上 Facebook，段落之間空一行）
+   # Hashtag
+   # 圖卡
+   ![](card.png)
+   # 選題評分
+   # 來源
+   （機構／媒體、標題、日期、URL；第三層來源要寫明點樣 fact check）
+
+Push 前必跑，實際 output 要貼喺最終回覆：
+   python3 tools/check_style.py posts-uk/YYYY-MM-DD/post.md
+   python3 tools/wordcount.py  posts-uk/YYYY-MM-DD/post.md
+   python3 tools/make_docx.py  posts-uk/YYYY-MM-DD/post.md
+・check_style 出 BLOCK 一定要改到清晒；WARN 要判斷，保留就喺回覆講點解。
+・wordcount 出 BLOCK 要改稿，唔好當冇睇見。
+
+然後：
    ・uk-ledger.csv append 一行
    ・今日未入選但值得留嘅題寫入 uk-backlog.md（目標 3 條以上）
-   ・commit 後 push 去 main（git push origin HEAD:main）。
+   ・git add posts-uk/ uk-ledger.csv uk-backlog.md，commit「YYYY-MM-DD 英國出稿」
+   ・push 去 main（git push origin HEAD:main）。
      一定要推去 main：下次 Routine 係由 main 開始，推去其他分支等於冇記住。
-     push 失敗就喺最終回覆講明，並貼晒 ledger 要加嘅嗰行。
-冇 repo：將全部內容貼喺最終回覆。
+     push 失敗就喺最終回覆貼晒全文，同埋 ledger 要加嘅嗰行。
+今日無合格選題：都要寫 posts-uk/YYYY-MM-DD/no-post.md（搵過咩、點解唔合格、最接近嘅候選），照樣 push。
 
 【七、最終回覆】
-・今日揀咗邊條、點解（五項評分逐項列出）、候補兩條（連評分），同埋因影響測試出局嘅候選一行交代
-・完整 post 正文（可以直接 copy）
-・圖卡數據
-・來源清單（機構／媒體、標題、日期、URL），有出入要講明以邊個為準
-・出稿前自檢：口語字？譯名？每個數字有冇來源？有冇撞題？
-・流程有咩含糊或者卡住，直接講。
+第一段（通知會顯示呢段，要寫結論，唔好淨係寫「已完成」）：
+   YYYY-MM-DD 英國出稿完成｜標題（選項 1）｜正文第一句
+
+之後：
+・選題：揀咗邊條、五項評分逐項列出、候補兩條（連評分）、因影響測試出局嘅候選一行交代
+・完整 post 正文（可以直接 copy）同三個標題選項
+・圖卡類型同 render.py 嘅 output
+・來源清單；第三層來源寫明點樣 fact check，有出入講明以邊個為準
+・check_style.py、wordcount.py、make_docx.py 嘅實際 output
+・CONTENT_READY=YES/NO　UPLOAD=SUCCESS/FAILED（連 commit hash）
+・流程含糊或者卡住嘅位（例如網站開唔到、圖卡放唔落、規則互相矛盾），連建議改法。有嘢卡住就直接講，唔好靜靜地繞路。
 ```
