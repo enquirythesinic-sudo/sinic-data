@@ -28,19 +28,40 @@
    ・Home Office 移民統計（BN(O) 簽證數字，每季）
    ・Bank of England 議息／Monetary Policy Report
    ・ONS：CPI、勞工市場、GDP
+   ・OBR 財政預測、財政預算案
    ・Ofgem 能源價格上限
-   ・HM Land Registry UK House Price Index
-   ・gov.uk 政策公告、國會法案（簽證、永居、入籍、稅務、教育、NHS）
-有就由呢啲揀；冇就用 web search 廣掃過去 48 小時嘅英國新聞。
+   ・gov.uk 政策公告、國會法案（簽證、永居、入籍、稅務、教育）
+有就由呢啲揀；冇就按下面來源清單廣掃過去 48 小時。
 
-【搜尋限制（已實測，唔好浪費次數）】
-・BBC、Reuters、FT、Guardian、The Times、Sky News、Independent、AP 全部封鎖 Claude：
-  web search 搜唔到佢哋嘅結果，web fetch 亦開唔到。唔好用 site: 或者 allowed_domains 指定佢哋，一定失敗。
-・做法：用 web search 唔加 domain 限制，搜「主題 + 月份 + 年份」（例如「Bank of England rate decision September 2026」），
-  搜尋摘要通常會直接引述官方原文（bankofengland.co.uk、gov.uk、ons.gov.uk、parliament.uk）。
-・官方網站如果 web fetch 開唔到（EGRESS_BLOCKED），就用 web search 搜嗰份發布嘅標題，由搜尋摘要攞數字，
-  並喺來源清單註明「經搜尋摘要核實，未能直接開啟原文」。
-・「兩個獨立來源」可以係：官方原文 + 一間搜得到嘅媒體或研究機構（例如 House of Commons Library、Trading Economics、行業協會）。
+【來源清單（已實測，全部 web search 搜得到）】
+第一層・官方（核心事實只可以嚟自呢層或第二層）
+   Bank of England、ONS、Home Office、OBR、gov.uk、House of Commons Library、
+   倫敦市政府 GLA（london.gov.uk）、London Councils
+第二層・研究中心
+   中立：IFS、Resolution Foundation、NIESR、Migration Observatory（牛津大學）、Centre for Cities、
+         Institute for Government、UK in a Changing Europe、Cebr、Economics Observatory
+   中間偏右（同讀者取向接近）：IEA、Policy Exchange
+   偏左（做對照）：IPPR
+   ・有立場嘅機構要寫明「某某機構認為」，唔可以當中立事實寫。
+   ・寫政策爭議時，儘量右（IEA／Policy Exchange）左（IPPR）各引一邊。
+第三層・媒體（用嚟發現題目同補充脈絡，數字要追返第一、二層）
+   財經：Bloomberg、CNBC
+   評論（中間偏右）：The Spectator、UnHerd
+   評論（中間偏左）：New Statesman、Prospect
+   GB News：立場鮮明，只可以用嚟發現題目，唔可以引用。
+
+【唔好用】
+・香港傳媒（HK01、東網、中通社、Yahoo 香港等）：屬二手轉述，唔用。
+・樓價同按揭行業來源（Rightmove、Nationwide 等）：暫時唔用。
+・以下網站封鎖 Claude，搜尋同開網頁都一定失敗，唔好浪費次數：
+  BBC、Reuters、FT、Guardian、The Times、Telegraph、i、Evening Standard、Sky News、Independent、
+  AP、Politico、Economist、Daily Mail、Express、Metro、Mirror、MyLondon
+
+【搜尋技巧】
+・用 web search 搜「主題 + 月份 + 年份」，可以用 allowed_domains 指定上面來源。
+・網站 web fetch 開唔到（EGRESS_BLOCKED）就用搜尋摘要，並喺來源清單註明「經搜尋摘要核實，未能直接開啟原文」。
+・搜尋結果成日混埋舊文章（例如 2024、2025 年），每條都要核對發布日期先用。
+・「兩個獨立來源」：官方原文 + 一間研究中心或媒體。兩間媒體轉述同一份官方文件只算一個來源。
 
 候選要過三條 gate，唔過就出局：
    ① 核心數字或事實有最少兩個獨立可靠來源（其中一個最好係官方原文）
@@ -52,10 +73,8 @@
 搵唔到合格新聞 → 由 uk-backlog.md 揀一條長青題目（例如 council tax 點計、學校點排位、
 永居時間點計），照樣要有官方來源同數字。backlog 都冇 → 出「今日無合格選題」報告，唔好硬寫。
 
-【三、樓價題（可選，每星期最多一次）】
-如果 repo 入面有 uk_property_data.json（郵區級別季度時間序列），可以用。
-・只可以用 growth_pct、peak_quarter、時間序列走勢同排名，唔好寫數值單位（單位未確認）。
-・要配合當期 UK HPI 或 BoE 新聞做錨點，唔好淨係報數。
+【三、樓價題】
+暫停，唔好寫樓價或者按揭題目。
 
 【四、寫稿】
 ・繁體書面語，全形標點。唔可以用粵語口語字（嘅、咗、喺、唔、啲、冇、嘢、睇、佢、嚟等）。
