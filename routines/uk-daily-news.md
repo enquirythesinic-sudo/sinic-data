@@ -52,7 +52,6 @@
    偏左（做對照）：IPPR
    中間派（新工黨路線，親增長、重科技同 AI）：Tony Blair Institute（institute.global）
    ・有立場嘅機構要寫明「某某機構認為」，唔可以當中立事實寫。
-   ・寫政策爭議時，儘量右（IEA／Policy Exchange）左（IPPR）各引一邊。
 第三層・媒體（可以提供題目，但內容一定要 fact check，見下面「核實規則」）
    財經：Bloomberg、CNBC
    評論（中間偏右）：The Spectator、UnHerd
