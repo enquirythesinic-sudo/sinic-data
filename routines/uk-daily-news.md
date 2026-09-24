@@ -1,7 +1,8 @@
 # 英國每日一則新聞 · Routine Prompt v1.0
 
 > 用法：喺另一個 account 開一個新 Routine（Daily，每次開新 session），將下面「主體」成段貼入 prompt。
-> 需要：web search。可選：attach `sinic-data` repo（用嚟存去重紀錄同讀樓價數據）。
+> 需要：web search，同埋 attach 你自己開嘅 GitHub repo（用嚟存去重紀錄同讀樓價數據）。
+> repo 入面放：`uk_property_data.json`（由 sinic-data copy 過去）。`uk-ledger.csv`、`uk-backlog.md` 第一次跑會自動建立。
 > 建議時間：cron `0 6 * * *`（UTC 06:00 = 英國夏令 07:00／冬令 06:00、香港 14:00）。
 > 呢個 prompt 自給自足，唔依賴 `sinicnews` repo 或者其他 account 嘅工具。
 
@@ -17,9 +18,9 @@
 
 【一、開工】
 1. 用 web search 確認今日日期（英國時間）同星期，唔好靠記憶。
-2. 如果 session 有 sinic-data repo：
-   ・讀 routines/uk-ledger.csv（冇就建立，欄位：date,title,main_number,subject,angle,source_url）
-   ・讀 routines/uk-backlog.md（冇就建立）
+2. 入去 session attach 咗嘅 repo，先 git fetch origin main 再 checkout main，確保攞到最新紀錄：
+   ・讀 uk-ledger.csv（冇就建立，欄位：date,title,main_number,subject,angle,source_url）
+   ・讀 uk-backlog.md（冇就建立）
    冇 repo 就跳過，喺最終回覆講明「今次冇去重紀錄」。
 
 【二、揀題】
@@ -43,7 +44,7 @@
 永居時間點計），照樣要有官方來源同數字。backlog 都冇 → 出「今日無合格選題」報告，唔好硬寫。
 
 【三、樓價題（可選，每星期最多一次）】
-如果 session 有 sinic-data repo，可以用 uk_property_data.json（郵區級別季度時間序列）。
+如果 repo 入面有 uk_property_data.json（郵區級別季度時間序列），可以用。
 ・只可以用 growth_pct、peak_quarter、時間序列走勢同排名，唔好寫數值單位（單位未確認）。
 ・要配合當期 UK HPI 或 BoE 新聞做錨點，唔好淨係報數。
 
@@ -70,7 +71,9 @@
    ・將全文寫入 posts-uk/YYYY-MM-DD.md
    ・uk-ledger.csv append 一行
    ・今日未入選但值得留嘅題寫入 uk-backlog.md（目標 3 條以上）
-   ・commit 後 push 去 session 指定嘅分支
+   ・commit 後 push 去 main（git push origin HEAD:main）。
+     一定要推去 main：下次 Routine 係由 main 開始，推去其他分支等於冇記住。
+     push 失敗就喺最終回覆講明，並貼晒 ledger 要加嘅嗰行。
 冇 repo：將全部內容貼喺最終回覆。
 
 【七、最終回覆】
