@@ -29,7 +29,7 @@
    ・讀 uk-ledger.csv（冇就建立，欄位：date,title,main_number,subject,angle,source_url）
    ・讀 uk-backlog.md（冇就建立）
    冇 repo 就跳過，喺最終回覆講明「今次冇去重紀錄」。
-3. 喺 repo 最外層跑 ./setup.sh（安裝出圖同 Word 工具，已裝會跳過）。
+3. 喺 repo 最外層跑 bash setup.sh（安裝出圖同 Word 工具，已裝會跳過）。
 
 【二、揀題】
 先睇今日或過去 72 小時有冇以下官方發布（優先次序由高至低）：

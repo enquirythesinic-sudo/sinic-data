@@ -33,7 +33,7 @@
 ## 用法
 
 ```bash
-./setup.sh
+bash setup.sh
 python3 graphics/render.py card.json posts-uk/2026-09-25/card.png
 python3 tools/check_style.py posts-uk/2026-09-25/post.md
 python3 tools/wordcount.py  posts-uk/2026-09-25/post.md
