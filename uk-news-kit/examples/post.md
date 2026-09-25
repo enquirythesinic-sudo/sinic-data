@@ -21,7 +21,7 @@
 ![](card.png)
 
 # 選題評分
-- 港人影響 2／英國經濟影響 3／數據硬度 3／新鮮度 2／反直覺 2，合共 12
+- 港人影響 2／英國經濟影響 3／數據硬度 3／新鮮度 2，合共 10
 
 # 來源
 - Bank of England，Monetary Policy Summary and Minutes，2026年9月
