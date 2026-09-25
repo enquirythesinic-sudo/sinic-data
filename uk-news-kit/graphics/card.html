@@ -6,18 +6,21 @@
 <link rel="stylesheet" href="../fonts/700.css">
 <link rel="stylesheet" href="../fonts/900.css">
 <style>
-  /* 品牌色：改呢度就得，其他唔使郁 */
+  /* 品牌色（IG palette）。背景有兩款：navy（預設）同 brown，由 settings.json 或者 card.json 嘅 theme 揀 */
   :root {
-    --bg: #0f1f3a;
-    --panel: #172b4d;
-    --ink: #f4efe6;
-    --muted: #9fb0c8;
-    --accent: #e0b04b;   /* 只留俾最重要嗰個數字 */
-    --bar: #6f9bd1;
-    --grid: #2a4068;
+    --bg: #1f3443;
+    --panel: rgba(235, 235, 235, 0.07);
+    --ink: #ebebeb;
+    --muted: #909ca4;
+    --accent: #e95506;   /* 只留俾最重要嗰個數字，只用喺大字 */
+    --bar: #8eb0b3;
+    --grid: #897660;     /* 只用喺線，唔好用喺文字（對比度唔夠） */
   }
+  body[data-theme="brown"] { --bg: #4a2d1f; }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html, body { width: 1080px; height: 1350px; background: var(--bg); }
+  html { background: #1f3443; }
+  html, body { width: 1080px; height: 1350px; }
+  body { background: var(--bg); }
   body {
     font-family: "Noto Sans TC", "WenQuanYi Zen Hei", sans-serif;
     color: var(--ink);
@@ -26,7 +29,7 @@
     overflow: hidden;
   }
   #kicker, #title, #subtitle, #footer { flex-shrink: 0; }
-  #kicker { font-size: 34px; font-weight: 700; color: var(--accent); letter-spacing: 2px; margin-bottom: 24px; }
+  #kicker { font-size: 34px; font-weight: 700; color: var(--bar); letter-spacing: 2px; margin-bottom: 24px; }
   #title { white-space: pre-line; font-size: 84px; font-weight: 900; line-height: 1.22; max-height: 330px; overflow: hidden; }
   #subtitle { font-size: 36px; color: var(--muted); margin-top: 24px; line-height: 1.45; }
   #body { flex: 1; display: flex; flex-direction: column; justify-content: center; margin: 48px 0; min-height: 0; }
@@ -145,7 +148,8 @@ function fitTitle() {
   return fits();
 }
 
-window.renderCard = (d, brand) => {
+window.renderCard = (d, brand, theme) => {
+  document.body.dataset.theme = d.theme || theme || "navy";
   document.getElementById("kicker").textContent = d.kicker || "";
   document.getElementById("title").textContent = d.title || "";
   const sub = document.getElementById("subtitle");

@@ -12,7 +12,9 @@ from playwright.sync_api import sync_playwright
 
 KIT = Path(__file__).resolve().parent.parent
 SETTINGS = KIT / "settings.json"
-BRAND = os.environ.get("CARD_BRAND") or (json.loads(SETTINGS.read_text(encoding="utf-8")).get("brand", "") if SETTINGS.exists() else "")
+CONFIG = json.loads(SETTINGS.read_text(encoding="utf-8")) if SETTINGS.exists() else {}
+BRAND = os.environ.get("CARD_BRAND") or CONFIG.get("brand", "")
+THEME = CONFIG.get("theme", "navy")
 
 
 def chromium_path():
@@ -39,10 +41,10 @@ def main():
         page = browser.new_page(viewport={"width": 1080, "height": 1350})
         page.goto((KIT / "graphics" / "card.html").as_uri())
         page.evaluate("document.fonts.ready")
-        result = page.evaluate("([d, b]) => renderCard(d, b)", [data, brand])
+        result = page.evaluate("([d, b, t]) => renderCard(d, b, t)", [data, brand, THEME])
         page.evaluate("document.fonts.ready")
         # 字體載入後尺寸會變，再檢查一次
-        result = page.evaluate("([d, b]) => renderCard(d, b)", [data, brand])
+        result = page.evaluate("([d, b, t]) => renderCard(d, b, t)", [data, brand, THEME])
         page.screenshot(path=str(out), clip={"x": 0, "y": 0, "width": 1080, "height": 1350})
         browser.close()
 
