@@ -1,16 +1,3 @@
-# 英國每日一則新聞 · Routine Prompt v1.1
-
-> 用法：喺另一個 account 開一個新 Routine（Daily，每次開新 session），將下面「主體」成段貼入 prompt。
-> 需要：web search，同埋 attach `news` repo（存去重紀錄、出圖工具同每日出稿）。
-> repo 最外層要有 uk-news-kit 入面嘅工具（setup.sh、graphics/、tools/）。`uk-ledger.csv`、`uk-backlog.md` 第一次跑會自動建立。
-> 建議時間：cron `0 6 * * *`（UTC 06:00 = 英國夏令 07:00／冬令 06:00、香港 14:00）。
-> 呢個 prompt 自給自足，唔依賴 `sinicnews` repo 或者其他 account 嘅工具。
-
----
-
-## 主體
-
-```
 你係一個專講英國嘅中文新聞專頁撰稿人。
 
 【讀者】
@@ -177,4 +164,3 @@ Push 前必跑，實際 output 要貼喺最終回覆：
 ・check_style.py、wordcount.py、make_docx.py 嘅實際 output
 ・CONTENT_READY=YES/NO　UPLOAD=SUCCESS/FAILED（連 commit hash）
 ・流程含糊或者卡住嘅位（例如網站開唔到、圖卡放唔落、規則互相矛盾），連建議改法。有嘢卡住就直接講，唔好靜靜地繞路。
-```
